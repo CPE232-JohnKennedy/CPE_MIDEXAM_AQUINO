@@ -1,0 +1,55 @@
+# UBUNTU ELASTIC STACK
+
+- name: install required modules
+  command: sudo apt-get install openjdk-11-jdk wget apt-transport-https curl gnupg2 -y
+
+- name: add the repository in packages
+  command: echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+
+- name: update system package
+  command: sudo apt-get update -y
+
+#- name: install elasticsearch
+#  command: sudo apt-get install elasticsearch -y
+
+- name: start the elasticsearch service
+  service:
+    name: elasticsearch
+    state: started
+    enabled: yes
+
+- name: enable elasticsearch at system startup
+  command: sudo systemctl enable elasticsearch
+
+
+# KIBANA
+
+- name: install kibana
+  apt:
+    name: kibana
+    state: latest
+
+- name: start kibana service
+  service:
+    name: kibana
+    state: started
+    enabled: yes
+
+- name: enable kibana at system startup
+  command: sudo systemctl enable kibana
+
+# LOGSTASH
+
+- name: install logstash
+  apt:
+    name: logstash
+    state: latest
+
+- name: start logstash service
+  service:
+    name: logstash
+    state: started
+    enabled: yes
+
+- name: enable logstash
+  command: sudo systemctl enable logstash
